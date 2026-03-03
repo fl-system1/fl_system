@@ -73,6 +73,17 @@ def send_model_update(client_id, weights):
     except Exception as e:
         print(f"[ERROR] Unexpected during send: {e}")
 
+
+
+def offload_training(stub, client_id, weights):
+    request = fl_pb2.OffloadRequest(
+        client_id=str(client_id),
+        weights=weights   
+    )
+    response = stub.OffloadTrain(request)
+    return response.weights
+
+
     
 def run():
     client_id = os.getenv("CLIENT_ID", str(uuid.uuid4())[:8])
@@ -105,7 +116,9 @@ def run():
              send_model_update(client_id, weights)
 
             else:
-             print("[INFO] Offloading training to server (no local training performed).")
+             print("[INFO] Offloading training to server...")
+             updated_weights = offload_training(stub, client_id, weights)
+             print("[INFO] Received trained model from server.")
 
             update = fl_pb2.ClientUpdate(
                 client_id=str(client_id),
