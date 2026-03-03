@@ -6,6 +6,8 @@ package fl;
 service FederatedLogger {
   rpc SendClientUpdate (ClientUpdate) returns (Ack) {}
   rpc SendModelUpdate (ModelUpdate) returns (Ack);
+
+  rpc OffloadTrain (OffloadRequest) returns (ModelUpdate);
 }
 
 message ClientUpdate {
@@ -48,4 +50,10 @@ message Weights {
 
 message Ack {
   string message = 1;
+}
+
+
+message OffloadRequest {
+  string client_id = 1;
+  map<string, Weights> weights = 2;
 }
