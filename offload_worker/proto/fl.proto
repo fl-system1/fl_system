@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+option go_package = "./";
+package fl;
+
+service FederatedLogger {
+  rpc SendClientUpdate (ClientUpdate) returns (Ack) {}
+  rpc SendModelUpdate (ModelUpdate) returns (Ack);
+
+  rpc OffloadTrain (OffloadRequest) returns (ModelUpdate);
+}
+
+message ClientUpdate {
+  string client_id = 1;
+  double cpu_percent = 2;
+  double memory_used_mb = 3;
+  double memory_percent = 4;
+  int64 net_sent_bytes = 5;
+  int64 net_recv_bytes = 6;
+  bool offloaded = 7;
+}
+
+message ModelUpdate {
+  string client_id = 1;
+  map<string, Weights> weights = 2;
+}
+
+message Weights {
+  repeated float values = 1;
+}
+
+message GlobalModelRequest {
+  // round can be empty or specific
+  int64 round = 1;
+}
+
+message GlobalModel {
+  int64 round = 1;
+  map<string, Weights> weights = 2;
+}
+
+
+message Ack {
+  string message = 1;
+}
+
+
+message OffloadRequest {
+  string client_id = 1;
+  map<string, Weights> weights = 2;
+}

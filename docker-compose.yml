@@ -11,6 +11,14 @@ services:
     networks:
       - flnet
 
+  offload_worker:
+    build: ./offload_worker
+    container_name: offload_worker
+    ports:
+      - "50052:50052"
+    networks:
+      - flnet
+
   client1:
     image: fl_client_image
     container_name: fl_client_1

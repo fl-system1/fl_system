@@ -73,10 +73,21 @@ def send_model_update(client_id, weights):
     except Exception as e:
         print(f"[ERROR] Unexpected during send: {e}")
 
-    
+
+
+def offload_training(stub, client_id, weights):
+    request = fl_pb2.OffloadRequest(
+        client_id=str(client_id),
+        weights=weights   
+    )
+    response = stub.OffloadTrain(request)
+    return response.weights
+
+
 def run():
     client_id = os.getenv("CLIENT_ID", str(uuid.uuid4())[:8])
     decider = OffloadDecider(cpu_threshold=75.0, mem_threshold=80.0)
+
     channel, stub = make_stub(GRPC_TARGET)
 
     while True:
@@ -96,17 +107,30 @@ def run():
 
             offloaded_bool = decision == "offload"
 
+            # Create model architecture
+            model = train_local_model(epochs=0)
 
             if decision == "local":
-             print("[INFO] Training model locally...")
-             model = train_local_model(epochs=1)   # train small local model
-             weights = get_model_weights(model)
-             print("[INFO] Local training completed. Model ready to send to server.")
-             send_model_update(client_id, weights)
+
+                print("[INFO] Training model locally...")
+                model = train_local_model(epochs=1)
+
+                weights = get_model_weights(model)
+
+                print("[INFO] Sending trained model to server")
+                send_model_update(client_id, weights)
 
             else:
-             print("[INFO] Offloading training to server (no local training performed).")
 
+                print("[INFO] Offloading training to server...")
+
+                weights = get_model_weights(model)
+
+                updated_weights = offload_training(stub, client_id, weights)
+
+                print("[INFO] Received trained model from server.")
+
+            # Send metrics update
             update = fl_pb2.ClientUpdate(
                 client_id=str(client_id),
                 cpu_percent=cpu_percent,
@@ -116,28 +140,25 @@ def run():
                 net_recv_bytes=net_recv_bytes,
                 offloaded=offloaded_bool,
             )
+
             resp = stub.SendClientUpdate(update)
             print(f"[ClientUpdate ACK] {resp.message}")
 
-            if decision == "local":
-                print("[INFO] Training locally (synthetic)...")
-                weights = synthetic_train()
-                send_model_update(stub, client_id, weights)
-                # fetch global model (optional)
-                fetch_global_model(stub)
-            else:
-                print("[INFO] Decided to offload - not training locally this round.")
-
         except grpc.RpcError as e:
+
             print(f"[gRPC error] {e}; recreating channel in 2s")
+
             try:
                 channel.close()
             except Exception:
                 pass
+
             time.sleep(2)
             channel, stub = make_stub(GRPC_TARGET)
+
         except Exception as e:
             print(f"[ERROR] {e}")
+
         finally:
             time.sleep(5)
 

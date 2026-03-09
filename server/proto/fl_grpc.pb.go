@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v6.33.0
-// source: proto/fl.proto
+// source: fl.proto
 
 package __
 
@@ -21,6 +21,8 @@ const _ = grpc.SupportPackageIsVersion9
 const (
 	FederatedLogger_SendClientUpdate_FullMethodName = "/fl.FederatedLogger/SendClientUpdate"
 	FederatedLogger_SendModelUpdate_FullMethodName  = "/fl.FederatedLogger/SendModelUpdate"
+	FederatedLogger_GetGlobalModel_FullMethodName   = "/fl.FederatedLogger/GetGlobalModel"
+	FederatedLogger_OffloadTrain_FullMethodName     = "/fl.FederatedLogger/OffloadTrain"
 )
 
 // FederatedLoggerClient is the client API for FederatedLogger service.
@@ -29,6 +31,8 @@ const (
 type FederatedLoggerClient interface {
 	SendClientUpdate(ctx context.Context, in *ClientUpdate, opts ...grpc.CallOption) (*Ack, error)
 	SendModelUpdate(ctx context.Context, in *ModelUpdate, opts ...grpc.CallOption) (*Ack, error)
+	GetGlobalModel(ctx context.Context, in *GlobalModelRequest, opts ...grpc.CallOption) (*GlobalModel, error)
+	OffloadTrain(ctx context.Context, in *OffloadRequest, opts ...grpc.CallOption) (*ModelUpdate, error)
 }
 
 type federatedLoggerClient struct {
@@ -59,12 +63,34 @@ func (c *federatedLoggerClient) SendModelUpdate(ctx context.Context, in *ModelUp
 	return out, nil
 }
 
+func (c *federatedLoggerClient) GetGlobalModel(ctx context.Context, in *GlobalModelRequest, opts ...grpc.CallOption) (*GlobalModel, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GlobalModel)
+	err := c.cc.Invoke(ctx, FederatedLogger_GetGlobalModel_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *federatedLoggerClient) OffloadTrain(ctx context.Context, in *OffloadRequest, opts ...grpc.CallOption) (*ModelUpdate, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ModelUpdate)
+	err := c.cc.Invoke(ctx, FederatedLogger_OffloadTrain_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // FederatedLoggerServer is the server API for FederatedLogger service.
 // All implementations must embed UnimplementedFederatedLoggerServer
 // for forward compatibility.
 type FederatedLoggerServer interface {
 	SendClientUpdate(context.Context, *ClientUpdate) (*Ack, error)
 	SendModelUpdate(context.Context, *ModelUpdate) (*Ack, error)
+	GetGlobalModel(context.Context, *GlobalModelRequest) (*GlobalModel, error)
+	OffloadTrain(context.Context, *OffloadRequest) (*ModelUpdate, error)
 	mustEmbedUnimplementedFederatedLoggerServer()
 }
 
@@ -80,6 +106,12 @@ func (UnimplementedFederatedLoggerServer) SendClientUpdate(context.Context, *Cli
 }
 func (UnimplementedFederatedLoggerServer) SendModelUpdate(context.Context, *ModelUpdate) (*Ack, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendModelUpdate not implemented")
+}
+func (UnimplementedFederatedLoggerServer) GetGlobalModel(context.Context, *GlobalModelRequest) (*GlobalModel, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetGlobalModel not implemented")
+}
+func (UnimplementedFederatedLoggerServer) OffloadTrain(context.Context, *OffloadRequest) (*ModelUpdate, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method OffloadTrain not implemented")
 }
 func (UnimplementedFederatedLoggerServer) mustEmbedUnimplementedFederatedLoggerServer() {}
 func (UnimplementedFederatedLoggerServer) testEmbeddedByValue()                         {}
@@ -138,6 +170,42 @@ func _FederatedLogger_SendModelUpdate_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _FederatedLogger_GetGlobalModel_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GlobalModelRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FederatedLoggerServer).GetGlobalModel(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FederatedLogger_GetGlobalModel_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FederatedLoggerServer).GetGlobalModel(ctx, req.(*GlobalModelRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _FederatedLogger_OffloadTrain_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(OffloadRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(FederatedLoggerServer).OffloadTrain(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: FederatedLogger_OffloadTrain_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(FederatedLoggerServer).OffloadTrain(ctx, req.(*OffloadRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // FederatedLogger_ServiceDesc is the grpc.ServiceDesc for FederatedLogger service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -153,7 +221,15 @@ var FederatedLogger_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "SendModelUpdate",
 			Handler:    _FederatedLogger_SendModelUpdate_Handler,
 		},
+		{
+			MethodName: "GetGlobalModel",
+			Handler:    _FederatedLogger_GetGlobalModel_Handler,
+		},
+		{
+			MethodName: "OffloadTrain",
+			Handler:    _FederatedLogger_OffloadTrain_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "proto/fl.proto",
+	Metadata: "fl.proto",
 }
