@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.10
 // 	protoc        v6.33.0
-// source: proto/fl.proto
+// source: fl.proto
 
 package __
 
@@ -36,7 +36,7 @@ type ClientUpdate struct {
 
 func (x *ClientUpdate) Reset() {
 	*x = ClientUpdate{}
-	mi := &file_proto_fl_proto_msgTypes[0]
+	mi := &file_fl_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -48,7 +48,7 @@ func (x *ClientUpdate) String() string {
 func (*ClientUpdate) ProtoMessage() {}
 
 func (x *ClientUpdate) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_fl_proto_msgTypes[0]
+	mi := &file_fl_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -61,7 +61,7 @@ func (x *ClientUpdate) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ClientUpdate.ProtoReflect.Descriptor instead.
 func (*ClientUpdate) Descriptor() ([]byte, []int) {
-	return file_proto_fl_proto_rawDescGZIP(), []int{0}
+	return file_fl_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *ClientUpdate) GetClientId() string {
@@ -123,7 +123,7 @@ type ModelUpdate struct {
 
 func (x *ModelUpdate) Reset() {
 	*x = ModelUpdate{}
-	mi := &file_proto_fl_proto_msgTypes[1]
+	mi := &file_fl_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -135,7 +135,7 @@ func (x *ModelUpdate) String() string {
 func (*ModelUpdate) ProtoMessage() {}
 
 func (x *ModelUpdate) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_fl_proto_msgTypes[1]
+	mi := &file_fl_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -148,7 +148,7 @@ func (x *ModelUpdate) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ModelUpdate.ProtoReflect.Descriptor instead.
 func (*ModelUpdate) Descriptor() ([]byte, []int) {
-	return file_proto_fl_proto_rawDescGZIP(), []int{1}
+	return file_fl_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *ModelUpdate) GetClientId() string {
@@ -174,7 +174,7 @@ type Weights struct {
 
 func (x *Weights) Reset() {
 	*x = Weights{}
-	mi := &file_proto_fl_proto_msgTypes[2]
+	mi := &file_fl_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -186,7 +186,7 @@ func (x *Weights) String() string {
 func (*Weights) ProtoMessage() {}
 
 func (x *Weights) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_fl_proto_msgTypes[2]
+	mi := &file_fl_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -199,12 +199,160 @@ func (x *Weights) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Weights.ProtoReflect.Descriptor instead.
 func (*Weights) Descriptor() ([]byte, []int) {
-	return file_proto_fl_proto_rawDescGZIP(), []int{2}
+	return file_fl_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *Weights) GetValues() []float32 {
 	if x != nil {
 		return x.Values
+	}
+	return nil
+}
+
+type GlobalModelRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Round         int64                  `protobuf:"varint,1,opt,name=round,proto3" json:"round,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GlobalModelRequest) Reset() {
+	*x = GlobalModelRequest{}
+	mi := &file_fl_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GlobalModelRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GlobalModelRequest) ProtoMessage() {}
+
+func (x *GlobalModelRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_fl_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GlobalModelRequest.ProtoReflect.Descriptor instead.
+func (*GlobalModelRequest) Descriptor() ([]byte, []int) {
+	return file_fl_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GlobalModelRequest) GetRound() int64 {
+	if x != nil {
+		return x.Round
+	}
+	return 0
+}
+
+type GlobalModel struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Round         int64                  `protobuf:"varint,1,opt,name=round,proto3" json:"round,omitempty"`
+	Weights       map[string]*Weights    `protobuf:"bytes,2,rep,name=weights,proto3" json:"weights,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GlobalModel) Reset() {
+	*x = GlobalModel{}
+	mi := &file_fl_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GlobalModel) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GlobalModel) ProtoMessage() {}
+
+func (x *GlobalModel) ProtoReflect() protoreflect.Message {
+	mi := &file_fl_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GlobalModel.ProtoReflect.Descriptor instead.
+func (*GlobalModel) Descriptor() ([]byte, []int) {
+	return file_fl_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *GlobalModel) GetRound() int64 {
+	if x != nil {
+		return x.Round
+	}
+	return 0
+}
+
+func (x *GlobalModel) GetWeights() map[string]*Weights {
+	if x != nil {
+		return x.Weights
+	}
+	return nil
+}
+
+type OffloadRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	ClientId      string                 `protobuf:"bytes,1,opt,name=client_id,json=clientId,proto3" json:"client_id,omitempty"`
+	Weights       map[string]*Weights    `protobuf:"bytes,2,rep,name=weights,proto3" json:"weights,omitempty" protobuf_key:"bytes,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *OffloadRequest) Reset() {
+	*x = OffloadRequest{}
+	mi := &file_fl_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *OffloadRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*OffloadRequest) ProtoMessage() {}
+
+func (x *OffloadRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_fl_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use OffloadRequest.ProtoReflect.Descriptor instead.
+func (*OffloadRequest) Descriptor() ([]byte, []int) {
+	return file_fl_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *OffloadRequest) GetClientId() string {
+	if x != nil {
+		return x.ClientId
+	}
+	return ""
+}
+
+func (x *OffloadRequest) GetWeights() map[string]*Weights {
+	if x != nil {
+		return x.Weights
 	}
 	return nil
 }
@@ -218,7 +366,7 @@ type Ack struct {
 
 func (x *Ack) Reset() {
 	*x = Ack{}
-	mi := &file_proto_fl_proto_msgTypes[3]
+	mi := &file_fl_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -230,7 +378,7 @@ func (x *Ack) String() string {
 func (*Ack) ProtoMessage() {}
 
 func (x *Ack) ProtoReflect() protoreflect.Message {
-	mi := &file_proto_fl_proto_msgTypes[3]
+	mi := &file_fl_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -243,7 +391,7 @@ func (x *Ack) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Ack.ProtoReflect.Descriptor instead.
 func (*Ack) Descriptor() ([]byte, []int) {
-	return file_proto_fl_proto_rawDescGZIP(), []int{3}
+	return file_fl_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *Ack) GetMessage() string {
@@ -253,11 +401,11 @@ func (x *Ack) GetMessage() string {
 	return ""
 }
 
-var File_proto_fl_proto protoreflect.FileDescriptor
+var File_fl_proto protoreflect.FileDescriptor
 
-const file_proto_fl_proto_rawDesc = "" +
+const file_fl_proto_rawDesc = "" +
 	"\n" +
-	"\x0eproto/fl.proto\x12\x02fl\"\x83\x02\n" +
+	"\bfl.proto\x12\x02fl\"\x83\x02\n" +
 	"\fClientUpdate\x12\x1b\n" +
 	"\tclient_id\x18\x01 \x01(\tR\bclientId\x12\x1f\n" +
 	"\vcpu_percent\x18\x02 \x01(\x01R\n" +
@@ -274,67 +422,96 @@ const file_proto_fl_proto_rawDesc = "" +
 	"\x03key\x18\x01 \x01(\tR\x03key\x12!\n" +
 	"\x05value\x18\x02 \x01(\v2\v.fl.WeightsR\x05value:\x028\x01\"!\n" +
 	"\aWeights\x12\x16\n" +
-	"\x06values\x18\x01 \x03(\x02R\x06values\"\x1f\n" +
+	"\x06values\x18\x01 \x03(\x02R\x06values\"*\n" +
+	"\x12GlobalModelRequest\x12\x14\n" +
+	"\x05round\x18\x01 \x01(\x03R\x05round\"\xa4\x01\n" +
+	"\vGlobalModel\x12\x14\n" +
+	"\x05round\x18\x01 \x01(\x03R\x05round\x126\n" +
+	"\aweights\x18\x02 \x03(\v2\x1c.fl.GlobalModel.WeightsEntryR\aweights\x1aG\n" +
+	"\fWeightsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12!\n" +
+	"\x05value\x18\x02 \x01(\v2\v.fl.WeightsR\x05value:\x028\x01\"\xb1\x01\n" +
+	"\x0eOffloadRequest\x12\x1b\n" +
+	"\tclient_id\x18\x01 \x01(\tR\bclientId\x129\n" +
+	"\aweights\x18\x02 \x03(\v2\x1f.fl.OffloadRequest.WeightsEntryR\aweights\x1aG\n" +
+	"\fWeightsEntry\x12\x10\n" +
+	"\x03key\x18\x01 \x01(\tR\x03key\x12!\n" +
+	"\x05value\x18\x02 \x01(\v2\v.fl.WeightsR\x05value:\x028\x01\"\x1f\n" +
 	"\x03Ack\x12\x18\n" +
-	"\amessage\x18\x01 \x01(\tR\amessage2o\n" +
-	"\x0fFederatedLogger\x12/\n" +
-	"\x10SendClientUpdate\x12\x10.fl.ClientUpdate\x1a\a.fl.Ack\"\x00\x12+\n" +
-	"\x0fSendModelUpdate\x12\x0f.fl.ModelUpdate\x1a\a.fl.AckB\x04Z\x02./b\x06proto3"
+	"\amessage\x18\x01 \x01(\tR\amessage2\xdd\x01\n" +
+	"\x0fFederatedLogger\x12-\n" +
+	"\x10SendClientUpdate\x12\x10.fl.ClientUpdate\x1a\a.fl.Ack\x12+\n" +
+	"\x0fSendModelUpdate\x12\x0f.fl.ModelUpdate\x1a\a.fl.Ack\x129\n" +
+	"\x0eGetGlobalModel\x12\x16.fl.GlobalModelRequest\x1a\x0f.fl.GlobalModel\x123\n" +
+	"\fOffloadTrain\x12\x12.fl.OffloadRequest\x1a\x0f.fl.ModelUpdateB\x04Z\x02./b\x06proto3"
 
 var (
-	file_proto_fl_proto_rawDescOnce sync.Once
-	file_proto_fl_proto_rawDescData []byte
+	file_fl_proto_rawDescOnce sync.Once
+	file_fl_proto_rawDescData []byte
 )
 
-func file_proto_fl_proto_rawDescGZIP() []byte {
-	file_proto_fl_proto_rawDescOnce.Do(func() {
-		file_proto_fl_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_proto_fl_proto_rawDesc), len(file_proto_fl_proto_rawDesc)))
+func file_fl_proto_rawDescGZIP() []byte {
+	file_fl_proto_rawDescOnce.Do(func() {
+		file_fl_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_fl_proto_rawDesc), len(file_fl_proto_rawDesc)))
 	})
-	return file_proto_fl_proto_rawDescData
+	return file_fl_proto_rawDescData
 }
 
-var file_proto_fl_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
-var file_proto_fl_proto_goTypes = []any{
-	(*ClientUpdate)(nil), // 0: fl.ClientUpdate
-	(*ModelUpdate)(nil),  // 1: fl.ModelUpdate
-	(*Weights)(nil),      // 2: fl.Weights
-	(*Ack)(nil),          // 3: fl.Ack
-	nil,                  // 4: fl.ModelUpdate.WeightsEntry
+var file_fl_proto_msgTypes = make([]protoimpl.MessageInfo, 10)
+var file_fl_proto_goTypes = []any{
+	(*ClientUpdate)(nil),       // 0: fl.ClientUpdate
+	(*ModelUpdate)(nil),        // 1: fl.ModelUpdate
+	(*Weights)(nil),            // 2: fl.Weights
+	(*GlobalModelRequest)(nil), // 3: fl.GlobalModelRequest
+	(*GlobalModel)(nil),        // 4: fl.GlobalModel
+	(*OffloadRequest)(nil),     // 5: fl.OffloadRequest
+	(*Ack)(nil),                // 6: fl.Ack
+	nil,                        // 7: fl.ModelUpdate.WeightsEntry
+	nil,                        // 8: fl.GlobalModel.WeightsEntry
+	nil,                        // 9: fl.OffloadRequest.WeightsEntry
 }
-var file_proto_fl_proto_depIdxs = []int32{
-	4, // 0: fl.ModelUpdate.weights:type_name -> fl.ModelUpdate.WeightsEntry
-	2, // 1: fl.ModelUpdate.WeightsEntry.value:type_name -> fl.Weights
-	0, // 2: fl.FederatedLogger.SendClientUpdate:input_type -> fl.ClientUpdate
-	1, // 3: fl.FederatedLogger.SendModelUpdate:input_type -> fl.ModelUpdate
-	3, // 4: fl.FederatedLogger.SendClientUpdate:output_type -> fl.Ack
-	3, // 5: fl.FederatedLogger.SendModelUpdate:output_type -> fl.Ack
-	4, // [4:6] is the sub-list for method output_type
-	2, // [2:4] is the sub-list for method input_type
-	2, // [2:2] is the sub-list for extension type_name
-	2, // [2:2] is the sub-list for extension extendee
-	0, // [0:2] is the sub-list for field type_name
+var file_fl_proto_depIdxs = []int32{
+	7,  // 0: fl.ModelUpdate.weights:type_name -> fl.ModelUpdate.WeightsEntry
+	8,  // 1: fl.GlobalModel.weights:type_name -> fl.GlobalModel.WeightsEntry
+	9,  // 2: fl.OffloadRequest.weights:type_name -> fl.OffloadRequest.WeightsEntry
+	2,  // 3: fl.ModelUpdate.WeightsEntry.value:type_name -> fl.Weights
+	2,  // 4: fl.GlobalModel.WeightsEntry.value:type_name -> fl.Weights
+	2,  // 5: fl.OffloadRequest.WeightsEntry.value:type_name -> fl.Weights
+	0,  // 6: fl.FederatedLogger.SendClientUpdate:input_type -> fl.ClientUpdate
+	1,  // 7: fl.FederatedLogger.SendModelUpdate:input_type -> fl.ModelUpdate
+	3,  // 8: fl.FederatedLogger.GetGlobalModel:input_type -> fl.GlobalModelRequest
+	5,  // 9: fl.FederatedLogger.OffloadTrain:input_type -> fl.OffloadRequest
+	6,  // 10: fl.FederatedLogger.SendClientUpdate:output_type -> fl.Ack
+	6,  // 11: fl.FederatedLogger.SendModelUpdate:output_type -> fl.Ack
+	4,  // 12: fl.FederatedLogger.GetGlobalModel:output_type -> fl.GlobalModel
+	1,  // 13: fl.FederatedLogger.OffloadTrain:output_type -> fl.ModelUpdate
+	10, // [10:14] is the sub-list for method output_type
+	6,  // [6:10] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
-func init() { file_proto_fl_proto_init() }
-func file_proto_fl_proto_init() {
-	if File_proto_fl_proto != nil {
+func init() { file_fl_proto_init() }
+func file_fl_proto_init() {
+	if File_fl_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_fl_proto_rawDesc), len(file_proto_fl_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_fl_proto_rawDesc), len(file_fl_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   10,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_proto_fl_proto_goTypes,
-		DependencyIndexes: file_proto_fl_proto_depIdxs,
-		MessageInfos:      file_proto_fl_proto_msgTypes,
+		GoTypes:           file_fl_proto_goTypes,
+		DependencyIndexes: file_fl_proto_depIdxs,
+		MessageInfos:      file_fl_proto_msgTypes,
 	}.Build()
-	File_proto_fl_proto = out.File
-	file_proto_fl_proto_goTypes = nil
-	file_proto_fl_proto_depIdxs = nil
+	File_fl_proto = out.File
+	file_fl_proto_goTypes = nil
+	file_fl_proto_depIdxs = nil
 }

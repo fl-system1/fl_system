@@ -4,8 +4,12 @@ option go_package = "./";
 package fl;
 
 service FederatedLogger {
-  rpc SendClientUpdate (ClientUpdate) returns (Ack) {}
+
+  rpc SendClientUpdate (ClientUpdate) returns (Ack);
+
   rpc SendModelUpdate (ModelUpdate) returns (Ack);
+
+  rpc GetGlobalModel (GlobalModelRequest) returns (GlobalModel);
 
   rpc OffloadTrain (OffloadRequest) returns (ModelUpdate);
 }
@@ -30,7 +34,6 @@ message Weights {
 }
 
 message GlobalModelRequest {
-  // round can be empty or specific
   int64 round = 1;
 }
 
@@ -39,21 +42,11 @@ message GlobalModel {
   map<string, Weights> weights = 2;
 }
 
-message ModelUpdate {
+message OffloadRequest {
   string client_id = 1;
   map<string, Weights> weights = 2;
-}
-
-message Weights {
-  repeated float values = 1;
 }
 
 message Ack {
   string message = 1;
-}
-
-
-message OffloadRequest {
-  string client_id = 1;
-  map<string, Weights> weights = 2;
 }
